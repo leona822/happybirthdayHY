@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+  <title>자유로 자동차극장 — 5월 17일 데이트 코스</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Gaegu:wght@400;700&family=Noto+Sans+KR:wght@400;500;600;700&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="style.css" />
+  <style>:root { --detail-color: #EF6A8A; }</style>
+</head>
+<body>
+<div id="app">
+  <div class="detail-deco-bg" aria-hidden="true">
+    <span class="deco-asterisk" style="top:10%;left:5%;font-size:16px;">✱</span>
+    <span class="deco-asterisk" style="top:35%;right:4%;font-size:22px;">✦</span>
+    <span class="deco-asterisk" style="top:60%;left:3%;font-size:12px;">✱</span>
+    <span class="deco-circle-outline" style="width:24px;height:24px;top:20%;right:5%;"></span>
+    <span class="deco-leaf" style="top:45%;right:2%;font-size:20px;transform:rotate(15deg);">🍃</span>
+  </div>
+
+  <div class="detail-nav">
+    <div class="detail-nav-card">
+      <a class="back-btn" href="index.html">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M15 18l-6-6 6-6"/></svg>
+        목록
+      </a>
+      <div class="detail-nav-divider"></div>
+      <div class="detail-nav-info">
+        <span class="detail-nav-badge" style="background-color:#EF6A8A;">6</span>
+        <span class="detail-nav-title">자유로 자동차극장</span>
+      </div>
+    </div>
+  </div>
+
+  <div class="detail-content">
+    <h2 class="detail-title">자유로 자동차극장</h2>
+
+    <div class="detail-image-wrap">
+      <div id="detail-image-placeholder" class="detail-image-placeholder no-photo" style="background-color:#EF6A8A;">
+        <img src="img/course06.png" alt="자유로 자동차극장" class="detail-img" />
+        <img id="detail-display-img" src="" alt="업로드 사진" class="detail-img" style="display:none; position:absolute; inset:0; width:100%; height:100%; object-fit:cover;" />
+        <div id="upload-hint" class="upload-hint">
+          <span class="upload-hint-icon">📷</span>
+          <span class="upload-hint-text">사진 올리기</span>
+        </div>
+        <input id="image-file-input" type="file" accept="image/*" style="display:none;" />
+      </div>
+    </div>
+
+    <div class="detail-description-box">
+      <p class="detail-description">자동차 극장에서 영화 '마이클' 함께 보기&#10;하루의 마지막을 로맨틱하게 마무리하기</p>
+    </div>
+
+    <div class="detail-info-box">
+      <ul class="detail-meta-list">
+        <li class="detail-meta-item"><span class="meta-icon">📍</span><span class="meta-text">위치: 경기 파주시 탄현면 방촌로 398</span></li>
+        <li class="detail-meta-item"><span class="meta-icon">🎬</span><span class="meta-text">상영 영화: 마이클</span></li>
+        <li class="detail-meta-item"><span class="meta-icon">🏁</span><span class="meta-text">구분: 마지막 코스</span></li>
+      </ul>
+    </div>
+
+    <div class="detail-nav-buttons">
+      <a class="nav-btn prev-btn" href="detail-5.html">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M15 18l-6-6 6-6"/></svg>
+        이전 코스
+      </a>
+      <a class="nav-btn next-btn" href="index.html" style="background-color:#EF6A8A;">
+        🔁 코스 처음으로
+      </a>
+    </div>
+
+    <div class="dot-pagination">
+      <a class="dot" href="detail-1.html"></a>
+      <a class="dot" href="detail-2.html"></a>
+      <a class="dot" href="detail-3.html"></a>
+      <a class="dot" href="detail-4.html"></a>
+      <a class="dot" href="detail-5.html"></a>
+      <span class="dot active" style="background-color:#EF6A8A;"></span>
+    </div>
+  </div>
+
+  <div class="page-bottom-space"></div>
+</div>
+<script>const COURSE_ID = 6;</script>
+<script src="detail.js"></script>
+</body>
+</html>
