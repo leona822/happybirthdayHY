@@ -1,0 +1,347 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+  <title>내용 편집 — 데이트 코스</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Gaegu:wght@400;700&family=Noto+Sans+KR:wght@400;500;600;700&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="style.css" />
+  <style>
+    .edit-page {
+      padding: 20px 20px 40px;
+      display: flex;
+      flex-direction: column;
+      gap: 18px;
+    }
+
+    .edit-top-nav {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 16px 20px 0;
+    }
+
+    .edit-back-btn {
+      font-family: 'Gaegu', sans-serif;
+      font-size: 16px;
+      font-weight: 700;
+      color: var(--brown);
+      text-decoration: none;
+      display: inline-flex;
+      align-items: center;
+      gap: 4px;
+      background: #fff;
+      border: 2px solid var(--brown);
+      border-radius: 999px;
+      padding: 5px 14px;
+      box-shadow: 2px 2px 0 var(--brown-shadow);
+    }
+
+    .edit-page-title {
+      font-family: 'Gaegu', sans-serif;
+      font-size: 22px;
+      font-weight: 700;
+      color: var(--brown);
+      text-align: center;
+      padding: 8px 20px 0;
+    }
+
+    .edit-section {
+      background: #fff;
+      border: 2px solid var(--brown);
+      border-radius: 20px;
+      box-shadow: 3px 3px 0 var(--brown-shadow);
+      padding: 18px 16px;
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+    }
+
+    .edit-section-title {
+      font-family: 'Gaegu', sans-serif;
+      font-size: 17px;
+      font-weight: 700;
+      color: var(--brown);
+      border-bottom: 2px dashed #e0d0b8;
+      padding-bottom: 8px;
+      margin-bottom: 2px;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+
+    .edit-field {
+      display: flex;
+      flex-direction: column;
+      gap: 4px;
+    }
+
+    .edit-label {
+      font-family: 'Noto Sans KR', sans-serif;
+      font-size: 11px;
+      font-weight: 600;
+      color: #8a7060;
+      letter-spacing: 0.3px;
+      text-transform: uppercase;
+    }
+
+    .edit-input {
+      font-family: 'Noto Sans KR', sans-serif;
+      font-size: 14px;
+      font-weight: 400;
+      color: #3A2E1E;
+      background: #FBF0D5;
+      border: 1.5px solid #c8b89a;
+      border-radius: 10px;
+      padding: 9px 12px;
+      outline: none;
+      width: 100%;
+      transition: border-color 0.15s, box-shadow 0.15s;
+      -webkit-appearance: none;
+    }
+
+    .edit-input:focus {
+      border-color: var(--brown);
+      box-shadow: 0 0 0 2px rgba(107,66,38,0.15);
+      background: #fff;
+    }
+
+    .course-section {
+      border-left: 5px solid var(--course-color, #ccc);
+    }
+
+    .edit-row {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 10px;
+    }
+
+    .save-btn {
+      font-family: 'Gaegu', sans-serif;
+      font-size: 20px;
+      font-weight: 700;
+      color: #fff;
+      background: var(--brown);
+      border: 2px solid var(--brown-shadow);
+      border-radius: 999px;
+      box-shadow: 3px 3px 0 var(--brown-shadow);
+      padding: 14px;
+      width: 100%;
+      cursor: pointer;
+      letter-spacing: 0.5px;
+      transition: transform 0.1s, box-shadow 0.1s;
+      -webkit-appearance: none;
+    }
+
+    .save-btn:active {
+      transform: translate(2px, 2px);
+      box-shadow: 1px 1px 0 var(--brown-shadow);
+    }
+
+    .reset-btn {
+      font-family: 'Noto Sans KR', sans-serif;
+      font-size: 13px;
+      font-weight: 500;
+      color: #8a7060;
+      background: transparent;
+      border: 1.5px solid #c8b89a;
+      border-radius: 999px;
+      padding: 8px 20px;
+      cursor: pointer;
+      width: 100%;
+      -webkit-appearance: none;
+    }
+
+    .toast {
+      position: fixed;
+      bottom: 32px;
+      left: 50%;
+      transform: translateX(-50%) translateY(20px);
+      background: var(--brown);
+      color: #fff;
+      font-family: 'Noto Sans KR', sans-serif;
+      font-size: 14px;
+      font-weight: 500;
+      padding: 10px 22px;
+      border-radius: 999px;
+      opacity: 0;
+      transition: opacity 0.25s, transform 0.25s;
+      pointer-events: none;
+      white-space: nowrap;
+      z-index: 999;
+    }
+    .toast.show {
+      opacity: 1;
+      transform: translateX(-50%) translateY(0);
+    }
+  </style>
+</head>
+<body>
+<div id="app">
+
+  <div class="detail-deco-bg" aria-hidden="true">
+    <span class="deco-asterisk" style="top:10%;left:5%;font-size:16px;">✱</span>
+    <span class="deco-asterisk" style="top:35%;right:4%;font-size:22px;">✦</span>
+    <span class="deco-asterisk" style="top:60%;left:3%;font-size:12px;">✱</span>
+    <span class="deco-circle-outline" style="width:24px;height:24px;top:20%;right:5%;"></span>
+    <span class="deco-leaf" style="top:45%;right:2%;font-size:20px;transform:rotate(15deg);">🍃</span>
+  </div>
+
+  <div class="edit-top-nav">
+    <a href="index.html" class="edit-back-btn">
+      <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M15 18l-6-6 6-6"/></svg>
+      목록으로
+    </a>
+  </div>
+
+  <p class="edit-page-title">✏️ 내용 편집</p>
+
+  <div class="edit-page" id="edit-form">
+
+    <!-- 헤더 섹션 -->
+    <div class="edit-section">
+      <div class="edit-section-title">🗓 헤더</div>
+
+      <div class="edit-row">
+        <div class="edit-field">
+          <label class="edit-label">날짜 태그</label>
+          <input class="edit-input" id="h-dateTag" type="text" placeholder="MAY 17" />
+        </div>
+        <div class="edit-field">
+          <label class="edit-label">목적지</label>
+          <input class="edit-input" id="h-destination" type="text" placeholder="파주" />
+        </div>
+      </div>
+
+      <div class="edit-field">
+        <label class="edit-label">제목</label>
+        <input class="edit-input" id="h-title" type="text" placeholder="데이트 코스" />
+      </div>
+
+      <div class="edit-field">
+        <label class="edit-label">부제</label>
+        <input class="edit-input" id="h-subtitle" type="text" placeholder="5월 18일 생일을 위한 특별한 하루 🎂" />
+      </div>
+    </div>
+
+    <!-- 코스 섹션 (JS 렌더링) -->
+    <div id="courses-form"></div>
+
+    <button class="save-btn" id="save-btn">저장하기</button>
+    <button class="reset-btn" id="reset-btn">기본값으로 초기화</button>
+
+  </div>
+
+  <div class="page-bottom-space"></div>
+</div>
+
+<div class="toast" id="toast">저장되었어요 ✓</div>
+
+<script>
+const defaultCourses = [
+  { id: 1, time: "11:00", title: "남부터미널",        subtitle: "한영이 차 합류", travelToNext: "자차 약 50분", color: "#F36F6F" },
+  { id: 2, time: "12:00", title: "모쿠슈라 테이블",   subtitle: "점심 식사",      travelToNext: "자차 약 30분", color: "#F5A623" },
+  { id: 3, time: "13:30", title: "월롱딸기",          subtitle: "딸기따기 체험",  travelToNext: "자차 약 20분", color: "#78B66B" },
+  { id: 4, time: "14:30", title: "낙화리",            subtitle: "그림 그리기",    travelToNext: "자차 약 40분", color: "#6FA8DC" },
+  { id: 5, time: "18:00", title: "도토리 정원",       subtitle: "저녁 식사",      travelToNext: "자차 약 20분", color: "#9B7BD8" },
+  { id: 6, time: "20:00", title: "자유로 자동차극장", subtitle: "영화 관람",      travelToNext: "",             color: "#EF6A8A" },
+];
+
+const defaultHeader = {
+  dateTag: "MAY 17",
+  title: "데이트 코스",
+  subtitle: "5월 18일 생일을 위한 특별한 하루 🎂",
+  destination: "파주",
+};
+
+/* ── 현재 저장값 불러오기 ── */
+const savedCourses = localStorage.getItem('edit_courses');
+const courses = savedCourses ? JSON.parse(savedCourses) : defaultCourses;
+
+const savedHeader = localStorage.getItem('edit_header');
+const header = savedHeader ? JSON.parse(savedHeader) : defaultHeader;
+
+/* ── 헤더 필드 채우기 ── */
+document.getElementById('h-dateTag').value     = header.dateTag;
+document.getElementById('h-title').value       = header.title;
+document.getElementById('h-subtitle').value    = header.subtitle;
+document.getElementById('h-destination').value = header.destination;
+
+/* ── 코스 폼 렌더링 ── */
+const coursesForm = document.getElementById('courses-form');
+courses.forEach(function (c) {
+  const sec = document.createElement('div');
+  sec.className = 'edit-section course-section';
+  sec.style.setProperty('--course-color', c.color);
+  sec.innerHTML = `
+    <div class="edit-section-title">
+      <span style="display:inline-block;width:14px;height:14px;border-radius:50%;background:${c.color};flex-shrink:0;"></span>
+      코스 ${c.id}
+    </div>
+    <div class="edit-row">
+      <div class="edit-field">
+        <label class="edit-label">시간</label>
+        <input class="edit-input" id="c${c.id}-time" type="text" value="${c.time}" placeholder="00:00" />
+      </div>
+      <div class="edit-field">
+        <label class="edit-label">이동 소요</label>
+        <input class="edit-input" id="c${c.id}-travel" type="text" value="${c.travelToNext}" placeholder="자차 약 OO분" />
+      </div>
+    </div>
+    <div class="edit-field">
+      <label class="edit-label">장소명</label>
+      <input class="edit-input" id="c${c.id}-title" type="text" value="${c.title}" />
+    </div>
+    <div class="edit-field">
+      <label class="edit-label">부제</label>
+      <input class="edit-input" id="c${c.id}-subtitle" type="text" value="${c.subtitle}" />
+    </div>
+  `;
+  coursesForm.appendChild(sec);
+});
+
+/* ── 저장 ── */
+document.getElementById('save-btn').addEventListener('click', function () {
+  const newHeader = {
+    dateTag:     document.getElementById('h-dateTag').value,
+    title:       document.getElementById('h-title').value,
+    subtitle:    document.getElementById('h-subtitle').value,
+    destination: document.getElementById('h-destination').value,
+  };
+
+  const newCourses = courses.map(function (c) {
+    return Object.assign({}, c, {
+      time:        document.getElementById('c' + c.id + '-time').value,
+      title:       document.getElementById('c' + c.id + '-title').value,
+      subtitle:    document.getElementById('c' + c.id + '-subtitle').value,
+      travelToNext: document.getElementById('c' + c.id + '-travel').value,
+    });
+  });
+
+  localStorage.setItem('edit_header',  JSON.stringify(newHeader));
+  localStorage.setItem('edit_courses', JSON.stringify(newCourses));
+
+  showToast('저장되었어요 ✓');
+  setTimeout(function () { window.location.href = 'index.html'; }, 900);
+});
+
+/* ── 초기화 ── */
+document.getElementById('reset-btn').addEventListener('click', function () {
+  if (!confirm('모든 내용을 기본값으로 되돌릴까요?')) return;
+  localStorage.removeItem('edit_header');
+  localStorage.removeItem('edit_courses');
+  window.location.reload();
+});
+
+/* ── 토스트 ── */
+function showToast(msg) {
+  const t = document.getElementById('toast');
+  t.textContent = msg;
+  t.classList.add('show');
+  setTimeout(function () { t.classList.remove('show'); }, 2000);
+}
+</script>
+</body>
+</html>

@@ -1,29 +1,37 @@
-const courses = [
-  {
-    id: 1, time: "11:00", title: "남부터미널", subtitle: "한영이 차 합류",
-    travelToNext: "자차 약 50분", color: "#F36F6F", emoji: "🚗", imageUrl: "img/course01.png",
-  },
-  {
-    id: 2, time: "12:00", title: "모쿠슈라 테이블", subtitle: "점심 식사",
-    travelToNext: "자차 약 30분", color: "#F5A623", emoji: "🍝", imageUrl: "img/course02.png",
-  },
-  {
-    id: 3, time: "13:30", title: "월롱딸기", subtitle: "딸기따기 체험",
-    travelToNext: "자차 약 20분", color: "#78B66B", emoji: "🍓", imageUrl: "img/course03.png",
-  },
-  {
-    id: 4, time: "14:30", title: "낙화리", subtitle: "그림 그리기",
-    travelToNext: "자차 약 40분", color: "#6FA8DC", emoji: "🎨", imageUrl: "img/course04.png",
-  },
-  {
-    id: 5, time: "18:00", title: "도토리 정원", subtitle: "저녁 식사",
-    travelToNext: "자차 약 20분", color: "#9B7BD8", emoji: "🍽️", imageUrl: "img/course05.png",
-  },
-  {
-    id: 6, time: "20:00", title: "자유로 자동차극장", subtitle: "영화 관람",
-    travelToNext: "", color: "#EF6A8A", emoji: "🎥", imageUrl: "img/course06.png",
-  },
+const defaultCourses = [
+  { id: 1, time: "11:00", title: "남부터미널",       subtitle: "한영이 차 합류",  travelToNext: "자차 약 50분", color: "#F36F6F", emoji: "🚗", imageUrl: "img/course01.png" },
+  { id: 2, time: "12:00", title: "모쿠슈라 테이블",  subtitle: "점심 식사",       travelToNext: "자차 약 30분", color: "#F5A623", emoji: "🍝", imageUrl: "img/course02.png" },
+  { id: 3, time: "13:30", title: "월롱딸기",         subtitle: "딸기따기 체험",   travelToNext: "자차 약 20분", color: "#78B66B", emoji: "🍓", imageUrl: "img/course03.png" },
+  { id: 4, time: "14:30", title: "낙화리",           subtitle: "그림 그리기",     travelToNext: "자차 약 40분", color: "#6FA8DC", emoji: "🎨", imageUrl: "img/course04.png" },
+  { id: 5, time: "18:00", title: "도토리 정원",      subtitle: "저녁 식사",       travelToNext: "자차 약 20분", color: "#9B7BD8", emoji: "🍽️", imageUrl: "img/course05.png" },
+  { id: 6, time: "20:00", title: "자유로 자동차극장", subtitle: "영화 관람",      travelToNext: "",             color: "#EF6A8A", emoji: "🎥", imageUrl: "img/course06.png" },
 ];
+
+const defaultHeader = {
+  dateTag: "MAY 17",
+  title: "데이트 코스",
+  subtitle: "5월 18일 생일을 위한 특별한 하루 🎂",
+  destination: "파주",
+};
+
+/* localStorage 우선 적용 */
+const savedCourses = localStorage.getItem('edit_courses');
+const courses = savedCourses ? JSON.parse(savedCourses) : defaultCourses;
+
+const savedHeader = localStorage.getItem('edit_header');
+const headerData = savedHeader ? JSON.parse(savedHeader) : defaultHeader;
+
+/* 헤더 텍스트 반영 */
+(function applyHeader() {
+  const dateTagEl  = document.querySelector('.header-date-tag');
+  const titleEl    = document.querySelector('.main-title');
+  const subtitleEl = document.querySelector('.main-subtitle');
+  const pillEl     = document.querySelector('.destination-pill span:last-child');
+  if (dateTagEl)  dateTagEl.textContent  = headerData.dateTag;
+  if (titleEl)    titleEl.textContent    = headerData.title;
+  if (subtitleEl) subtitleEl.textContent = headerData.subtitle;
+  if (pillEl)     pillEl.textContent     = '목적지: ' + headerData.destination;
+})();
 
 function renderCourseList() {
   const courseList = document.getElementById('course-list');

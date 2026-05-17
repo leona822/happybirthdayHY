@@ -67,3 +67,58 @@
     }
   });
 })();
+
+/* =========================================================
+   텍스트 인라인 편집
+   ========================================================= */
+(function () {
+  const prefix = 'course_text_' + COURSE_ID + '_';
+
+  /* 편집 대상 요소 목록 (selector, storageKey suffix) */
+  const targets = [
+    { el: document.querySelector('.detail-title'),       key: 'title' },
+    { el: document.querySelector('.detail-description'), key: 'desc'  },
+  ];
+
+  /* 메타 텍스트 항목들 동적 추가 */
+  document.querySelectorAll('.meta-text').forEach(function (el, i) {
+    targets.push({ el: el, key: 'meta' + i });
+  });
+
+  targets.forEach(function (item) {
+    if (!item.el) return;
+    const key = prefix + item.key;
+
+    /* 저장된 텍스트 불러오기 */
+    const saved = localStorage.getItem(key);
+    if (saved !== null) item.el.textContent = saved;
+
+    /* contenteditable 활성화 */
+    item.el.setAttribute('contenteditable', 'true');
+    item.el.setAttribute('spellcheck', 'false');
+
+    /* 편집 완료 시 저장 */
+    item.el.addEventListener('blur', function () {
+      localStorage.setItem(key, item.el.textContent);
+    });
+
+    /* Enter 키로 포커스 해제 (타이틀 등 한 줄 필드) */
+    item.el.addEventListener('keydown', function (e) {
+      if (e.key === 'Enter' && !e.shiftKey) {
+        e.preventDefault();
+        item.el.blur();
+      }
+    });
+  });
+
+  /* 편집 힌트 표시 */
+  function addHint(box, text) {
+    if (!box) return;
+    var hint = document.createElement('span');
+    hint.className = 'editable-hint';
+    hint.textContent = text;
+    box.appendChild(hint);
+  }
+  addHint(document.querySelector('.detail-description-box'), '✏️ 탭해서 편집');
+  addHint(document.querySelector('.detail-info-box'), '✏️ 탭해서 편집');
+})();
